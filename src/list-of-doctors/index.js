@@ -10,7 +10,7 @@ const fetchListOfDoctors = () => {
       const $ = cheerio.load(html);
       fs.writeFileSync(
         "./data.csv",
-        `DistrictEnglish, District, PHO, Doctor, Sanction`
+        `DistrictEnglish,District,PHO,Doctor,Sanction`
       );
       $("table tbody tr").each((index, tr) => {
         let newRow = "";
@@ -21,7 +21,7 @@ const fetchListOfDoctors = () => {
               fs.writeFileSync("./data.csv", "\n", { flag: "a" });
               newRow += textData;
             } else {
-              newRow += ", " + textData;
+              newRow += "," + textData;
             }
           }
           if (i === tr.children.length - 1) {
