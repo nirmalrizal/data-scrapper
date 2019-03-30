@@ -15,12 +15,13 @@ const fetchListOfDoctors = () => {
       $("table tbody tr").each((index, tr) => {
         let newRow = "";
         tr.children.forEach((td, i) => {
-          if (td.name === "td" && td.children[0]) {
+          if (td.name === "td") {
+            const textData = td.children[0] ? td.children[0].data : "";
             if (newRow === "") {
               fs.writeFileSync("./data.csv", "\n", { flag: "a" });
-              newRow += td.children[0].data;
+              newRow += textData;
             } else {
-              newRow += ", " + td.children[0].data;
+              newRow += ", " + textData;
             }
           }
           if (i === tr.children.length - 1) {
