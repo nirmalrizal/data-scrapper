@@ -16,7 +16,7 @@ const fetchListOfDoctors = () => {
         let newRow = "";
         tr.children.forEach((td, i) => {
           if (td.name === "td") {
-            const textData = td.children[0] ? td.children[0].data : "";
+            const textData = td.children[0] ? `"${td.children[0].data}"` : `""`;
             if (newRow === "") {
               fs.writeFileSync("./data.csv", "\n", { flag: "a" });
               newRow += textData;
