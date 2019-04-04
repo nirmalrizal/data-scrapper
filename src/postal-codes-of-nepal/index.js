@@ -6,15 +6,15 @@ const path = require("path");
 const fetchUrl = "http://www.nepalpost.gov.np/index.php/postal-codes-of-nepal";
 const filePath = path.resolve(__dirname, "data.csv");
 
-fs.writeFileSync(
-  filePath,
-  `"District","Post Office","Postal/Pin Code","Post Office Type"\n`
-);
-
 const fetchPostalCodesOfNepal = () => {
   return new Promise((resolve, reject) => {
     request(fetchUrl, (error, response, html) => {
       if (!error && response.statusCode === 200) {
+        fs.writeFileSync(
+          filePath,
+          `"District","Post Office","Postal/Pin Code","Post Office Type"`
+        );
+        writeTextInFile(`\n`);
         const $ = cheerio.load(html);
         $(".item-page table tbody tr").each((index, tr) => {
           if (index !== 0) {
@@ -30,7 +30,6 @@ const fetchPostalCodesOfNepal = () => {
               });
           }
         });
-        console.log("Done");
         resolve("success");
       } else {
         reject(error);
@@ -39,8 +38,8 @@ const fetchPostalCodesOfNepal = () => {
   });
 };
 
-fetchPostalCodesOfNepal();
-
 function writeTextInFile(text) {
   fs.writeFileSync(filePath, text, { flag: "a" });
 }
+
+module.exports = fetchPostalCodesOfNepal;

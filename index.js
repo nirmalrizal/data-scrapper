@@ -5,6 +5,7 @@ const blank = "\n".repeat(process.stdout.rows);
 
 /* Options */
 const fetchListOfDoctors = require("./src/list-of-doctors");
+const fetchPostalCodesOfNepal = require("./src/postal-codes-of-nepal");
 
 const readMove = readline.createInterface({
   input: process.stdin,
@@ -16,6 +17,11 @@ const scrapOptions = {
     key: 1,
     title: "List of Doctors",
     scrapFunc: fetchListOfDoctors
+  },
+  2: {
+    key: 2,
+    title: "Postal Codes of Nepal",
+    scrapFunc: fetchPostalCodesOfNepal
   }
 };
 
@@ -36,9 +42,14 @@ const getUserInput = () => {
   readMove.question(`Enter your choice : `, async choice => {
     if (scrapOptions[choice]) {
       showMessageWithSpinner(`Fetching ${scrapOptions[choice].title}`);
-      await scrapOptions[choice].scrapFunc();
-      stopTheSpinner();
-      console.log("Data fetch complete");
+      try {
+        await scrapOptions[choice].scrapFunc();
+        stopTheSpinner();
+        console.log("Data fetch complete");
+      } catch (err) {
+        console.log("\nError on fetching data");
+        console.log(err);
+      }
       process.exit();
     } else {
       getUserInput();

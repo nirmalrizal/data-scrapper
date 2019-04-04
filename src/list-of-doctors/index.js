@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const url = "http://moh-doctors.herokuapp.com";
-const filePath = path.resolve(__dirname + "/data.csv");
+const filePath = path.resolve(__dirname, "data.csv");
 
 const fetchListOfDoctors = () => {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ const fetchListOfDoctors = () => {
         const $ = cheerio.load(html);
         fs.writeFileSync(
           filePath,
-          `DistrictEnglish,District,PHO,Doctor,Sanction`
+          `"DistrictEnglish","District","PHO","Doctor","Sanction"`
         );
         $("table tbody tr").each((index, tr) => {
           let newRow = "";
